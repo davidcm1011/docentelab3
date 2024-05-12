@@ -1,0 +1,29 @@
+---
+import Layout from "@layouts/Layout.astro";
+import type { Article } from "../../types/articles";
+
+const endpoint = `http://localhost:1337/api/articles`;
+const response = await fetch(endpoint);
+const data = await response.json();
+const blogs: Article[] = data.results as Article[];
+console.log(data);
+
+
+---
+<Layout title="article">
+  <div class="row">
+    {
+      blogs.map((item: Article) => (
+        <div class="col1">
+            <div class="body">
+              <h5 class="card-title">{item.attributes.title}</h5>
+              <img src={item.attributes.images} alt=""/>
+              <p class="card-text">
+                {item.attributes.content}
+              </p>
+            </div>
+        </div>
+      ))
+    }
+  </div>
+</Layout>
